@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocket Media Corporation – Service Quote Estimator</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #080f1e;
+  --navy-mid: #0e1d36;
+  --navy-card: #111f38;
+  --gold: #c8a84b;
+  --gold-light: #e4c86a;
+  --gold-pale: #f0dfa0;
+  --gold-dim: rgba(200,168,75,0.12);
+  --white: #ffffff;
+  --off: #f5f0e8;
+  --muted: #7a93b4;
+  --border: rgba(200,168,75,0.2);
+  --border-soft: rgba(255,255,255,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse 80% 40% at 10% 0%, rgba(200,168,75,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 100%, rgba(14,29,54,0.8) 0%, transparent 70%);
+}
+
+/* ── HEADER ── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 48px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(8,15,30,0.95);
+  backdrop-filter: blur(12px);
+  position: sticky; top:0; z-index:200;
+}
+
+.brand h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.3px;
+  line-height: 1;
+}
+.brand p {
+  font-size: 0.65rem;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.badge {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border: 1px solid var(--gold);
+  border-radius: 20px;
+  color: var(--gold);
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 56px 24px 36px;
+  max-width: 660px;
+  margin: 0 auto;
+}
+.hero-tag {
+  font-size: 0.65rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+.hero h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+.hero h2 em { color: var(--gold); font-style: normal; }
+.hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; font-weight: 300; }
+
+/* ── SERVICE SELECTOR ── */
+.service-selector {
+  max-width: 860px;
+  margin: 0 auto 32px;
+  padding: 0 24px;
+}
+
+.selector-label {
+  font-size: 0.68rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.service-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.service-tab {
+  background: var(--navy-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 20px 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.service-tab::before {
+  content:'';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transform: scaleX(0);
+  transition: transform 0.25s;
+}
+.service-tab:hover { border-color: var(--border); transform: translateY(-2px); }
+.service-tab:hover::before { transform: scaleX(1); }
+.service-tab.active {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+}
+.service-tab.active::before { transform: scaleX(1); }
+
+.tab-icon { font-size: 1.6rem; margin-bottom: 8px; }
+.tab-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.service-tab.active .tab-name { color: var(--gold); }
+.tab-desc { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+
+/* ── FORM WRAPPER ── */
+.form-wrap {
+  max-width: 860px;
+  margin: 0 auto 80px;
+  padding: 0 24px;
+}
+
+.service-form { display: none; }
+.service-form.active { display: block; animation: fadeIn 0.35s ease; }
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── CARDS ── */
+.card {
+  background: var(--navy-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s;
+}
+.card::after {
+  content:'';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: linear-gradient(180deg, var(--gold), var(--gold-light));
+}
+.card:hover { border-color: var(--border); }
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 10px;
+}
+.card-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 22px;
+  padding-left: 0;
+}
+
+/* ── GRID ── */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.full { grid-column: 1/-1; }
+
+/* ── INPUTS ── */
+label.field-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+}
+
+input[type=text], input[type=date], input[type=number], input[type=email], select, textarea {
+  width: 100%;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(200,168,75,0.18);
+  border-radius: 10px;
+  padding: 11px 15px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(200,168,75,0.05);
+  box-shadow: 0 0 0 3px rgba(200,168,75,0.08);
+}
+select option { background: var(--navy-mid); }
+textarea { resize: vertical; min-height: 80px; }
+input[type=date]::-webkit-calendar-picker-indicator { filter: invert(0.6) sepia(1) saturate(2); cursor:pointer; }
+
+/* ── TOGGLES ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border-soft);
+}
+.toggle-row:last-child { border-bottom: none; }
+.t-info { flex:1; }
+.t-name { font-size: 0.9rem; font-weight: 500; }
+.t-desc { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
+.t-right { display:flex; align-items:center; gap:12px; flex-shrink:0; }
+.price-tag {
+  font-size: 0.68rem; font-weight: 600;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid rgba(200,168,75,0.2);
+  border-radius: 5px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+/* switch */
+.sw { position:relative; width:44px; height:22px; }
+.sw input { opacity:0; width:0; height:0; }
+.sl {
+  position:absolute; cursor:pointer;
+  top:0;left:0;right:0;bottom:0;
+  background: rgba(255,255,255,0.08);
+  border-radius:22px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition:0.3s;
+}
+.sl:before {
+  content:'';
+  position:absolute;
+  width:16px;height:16px;
+  left:2px;bottom:2px;
+  background:var(--muted);
+  border-radius:50%;
+  transition:0.3s;
+}
+.sw input:checked + .sl { background: linear-gradient(135deg,var(--gold),var(--gold-light)); border-color:var(--gold); }
+.sw input:checked + .sl:before { transform:translateX(22px); background:var(--navy); }
+
+/* sub fields */
+.sub { display:none; margin-top:10px; padding:14px; background:rgba(200,168,75,0.04); border-radius:10px; border:1px solid rgba(200,168,75,0.12); }
+.sub.on { display:block; animation: fadeIn 0.2s ease; }
+.sub-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+/* ── GENERATE BTN ── */
+.btn-gen {
+  width:100%; padding:17px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  border: none; border-radius: 12px;
+  cursor: pointer; transition: all 0.3s;
+  margin-top: 8px;
+  overflow: hidden; position: relative;
+}
+.btn-gen::after {
+  content:'';
+  position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);
+  transition: left 0.5s;
+}
+.btn-gen:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(200,168,75,0.35); }
+.btn-gen:hover::after { left:100%; }
+
+/* ── QUOTE OUTPUT ── */
+#quoteOut {
+  display:none;
+  background: var(--navy-card);
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: 40px;
+  margin-top: 28px;
+  animation: fadeIn 0.4s ease;
+  position: relative; overflow: hidden;
+}
+#quoteOut::before {
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+}
+
+.q-head {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  padding-bottom: 20px; margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.q-title { font-family:'Cormorant Garamond',serif; font-size:1.5rem; font-weight:700; color:var(--gold); }
+.q-ref { font-size:0.7rem; color:var(--muted); margin-top:4px; }
+.q-date { font-size:0.82rem; color:var(--gold-light); font-weight:500; }
+.q-date-lbl { font-size:0.68rem; color:var(--muted); text-align:right; }
+
+.q-event {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  background: rgba(200,168,75,0.05);
+  border-radius:10px; padding:16px 20px;
+  margin-bottom:22px;
+}
+.q-detail label { font-size:0.65rem; color:var(--gold); letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; display:block; }
+.q-detail p { font-size:0.88rem; font-weight:500; }
+
+.q-items { margin-bottom:22px; }
+.q-item {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:11px 0; border-bottom:1px solid var(--border-soft);
+}
+.q-item:last-child { border-bottom:none; }
+.q-item-name { font-size:0.88rem; }
+.q-item-detail { font-size:0.72rem; color:var(--muted); margin-top:2px; }
+.q-item-price { font-size:0.88rem; font-weight:600; color:var(--gold-light); white-space:nowrap; margin-left:16px; }
+
+.q-total {
+  display:flex; justify-content:space-between; align-items:center;
+  background: linear-gradient(135deg,rgba(200,168,75,0.12),rgba(200,168,75,0.04));
+  border:1px solid var(--gold); border-radius:12px;
+  padding:20px 24px; margin-bottom:18px;
+}
+.q-total-lbl { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--muted); }
+.q-total-sub { font-size:0.72rem; color:var(--muted); margin-top:3px; }
+.q-total-amt { font-family:'Cormorant Garamond',serif; font-size:1.8rem; font-weight:700; color:var(--gold); }
+
+.q-note {
+  font-size:0.77rem; color:var(--muted); line-height:1.65;
+  padding:13px 16px; background:rgba(255,255,255,0.02);
+  border-left:3px solid var(--gold); border-radius:6px;
+  margin-bottom:22px;
+}
+
+.btn-req {
+  width:100%; padding:15px;
+  background:transparent; color:var(--gold);
+  font-family:'DM Sans',sans-serif; font-size:0.85rem; font-weight:600;
+  letter-spacing:2px; text-transform:uppercase;
+  border:1.5px solid var(--gold); border-radius:12px;
+  cursor:pointer; transition:all 0.3s;
+}
+.btn-req:hover { background:var(--gold); color:var(--navy); }
+
+/* ── THANK YOU ── */
+#thankyou {
+  display:none;
+  text-align:center; padding:40px;
+  background: var(--gold-dim);
+  border:1px solid var(--gold); border-radius:16px;
+  margin-top:20px; animation: fadeIn 0.4s ease;
+}
+#thankyou .ty-icon { font-size:2.4rem; margin-bottom:14px; }
+#thankyou h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; color:var(--gold); margin-bottom:10px; }
+#thankyou p { color:var(--muted); font-size:0.88rem; line-height:1.7; max-width:420px; margin:0 auto; }
+#thankyou strong { color:var(--gold-light); }
+
+/* ── FOOTER ── */
+footer {
+  text-align:center; padding:22px;
+  border-top:1px solid var(--border);
+  color:var(--muted); font-size:0.72rem; letter-spacing:1px;
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:650px){
+  header { padding:18px 20px; }
+  .brand h1 { font-size:1.15rem; }
+  .hero h2 { font-size:2.1rem; }
+  .service-tabs { grid-template-columns:1fr 1fr; }
+  .grid { grid-template-columns:1fr; }
+  .full { grid-column:1; }
+  .q-event { grid-template-columns:1fr 1fr; }
+  .sub-grid { grid-template-columns:1fr; }
+  #quoteOut { padding:24px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <h1>Rocket Media Corporation</h1>
+    <p>Service Quote Estimator · (Pvt) Ltd</p>
+  </div>
+  <div class="badge">Instant Quote</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <p class="hero-tag">Professional Media Services</p>
+  <h2>Get an <em>Instant</em> Quote</h2>
+  <p>Select a service category below, fill in your requirements, and receive an indicative quote tailored to your project.</p>
+</div>
+
+<!-- SERVICE SELECTOR -->
+<div class="service-selector">
+  <p class="selector-label">Select a Service Category</p>
+  <div class="service-tabs">
+    <div class="service-tab" onclick="switchService('roadshow')">
+      <div class="tab-icon">🚛</div>
+      <div class="tab-name">Roadshow</div>
+      <div class="tab-desc">Mobile activations & brand experiences</div>
+    </div>
+    <div class="service-tab" onclick="switchService('advertising')">
+      <div class="tab-icon">📢</div>
+      <div class="tab-name">Advertising</div>
+      <div class="tab-desc">Campaigns, media buying & creative</div>
+    </div>
+    <div class="service-tab" onclick="switchService('printing')">
+      <div class="tab-icon">🖨️</div>
+      <div class="tab-name">Printing</div>
+      <div class="tab-desc">Paper, large format & branded materials</div>
+    </div>
+    <div class="service-tab" onclick="switchService('corporatewear')">
+      <div class="tab-icon">👕</div>
+      <div class="tab-name">Corporate Wear</div>
+      <div class="tab-desc">Branded uniforms & promotional clothing</div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMS -->
+<div class="form-wrap">
+
+  <!-- ═══════════════ ROADSHOW ═══════════════ -->
+  <div class="service-form" id="form-roadshow">
+
+    <div class="card">
+      <div class="card-title">📋 Event Details</div>
+      <div class="card-sub">Tell us about your roadshow activation</div>
+      <div class="grid">
+        <div class="full">
+          <label class="field-label">Event / Brand Name</label>
+          <input type="text" id="rs-name" placeholder="e.g. Coca-Cola Summer Activation">
+        </div>
+        <div>
+          <label class="field-label">Event Date</label>
+          <input type="date" id="rs-date">
+        </div>
+        <div>
+          <label class="field-label">Location / Venue</label>
+          <input type="text" id="rs-location" placeholder="e.g. City Centre Plaza, Harare">
+        </div>
+        <div>
+          <label class="field-label">Duration (Hours)</label>
+          <input type="number" id="rs-hours" min="1" max="24" value="6">
+        </div>
+        <div>
+          <label class="field-label">Number of Trucks</label>
+          <input type="number" id="rs-trucks" min="1" max="20" value="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🔊 Equipment & Infrastructure</div>
+      <div class="card-sub">Select required equipment</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">PA System / Sound</div><div class="t-desc">Professional sound for music and announcements</div></div>
+        <div class="t-right"><span class="price-tag">From $150</span><label class="sw"><input type="checkbox" id="rs-pa" onchange="tog('rs-pa-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-pa-sub">
+        <label class="field-label">Size</label>
+        <select id="rs-pa-sz"><option value="150">Small – up to 200 people ($150)</option><option value="280">Medium – 200–500 people ($280)</option><option value="450">Large – 500+ people ($450)</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Backup Generator</div><div class="t-desc">Reliable power for uninterrupted operations</div></div>
+        <div class="t-right"><span class="price-tag">From $120</span><label class="sw"><input type="checkbox" id="rs-gen" onchange="tog('rs-gen-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-gen-sub">
+        <label class="field-label">Capacity</label>
+        <select id="rs-gen-sz"><option value="120">10–20 KVA ($120)</option><option value="200">20–50 KVA ($200)</option><option value="350">50 KVA+ ($350)</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Branded Gazebo / Tent</div><div class="t-desc">Branded shelter and display structures</div></div>
+        <div class="t-right"><span class="price-tag">$80/unit</span><label class="sw"><input type="checkbox" id="rs-gaz" onchange="tog('rs-gaz-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-gaz-sub">
+        <label class="field-label">Number of Gazebos</label>
+        <input type="number" id="rs-gaz-n" min="1" max="20" value="1">
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">LED Screen / Display</div><div class="t-desc">Large format screen for visuals and branding</div></div>
+        <div class="t-right"><span class="price-tag">From $200</span><label class="sw"><input type="checkbox" id="rs-led" onchange="tog('rs-led-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-led-sub">
+        <label class="field-label">Size</label>
+        <select id="rs-led-sz"><option value="200">Small 3×2m ($200)</option><option value="380">Medium 6×4m ($380)</option><option value="650">Large 10×6m+ ($650)</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Stage / Podium Setup</div><div class="t-desc">Elevated platform for performers or speakers</div></div>
+        <div class="t-right"><span class="price-tag">From $300</span><label class="sw"><input type="checkbox" id="rs-stage" onchange="tog('rs-stage-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-stage-sub">
+        <label class="field-label">Size</label>
+        <select id="rs-stage-sz"><option value="300">Small Podium ($300)</option><option value="550">Medium 4×4m ($550)</option><option value="900">Large 8×6m+ ($900)</option></select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎤 Talent & Entertainment</div>
+      <div class="card-sub">Select performers for your activation</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">DJ / MC</div><div class="t-desc">Professional DJ, MC, or both</div></div>
+        <div class="t-right"><span class="price-tag">From $180</span><label class="sw"><input type="checkbox" id="rs-djmc" onchange="tog('rs-djmc-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-djmc-sub">
+        <label class="field-label">Selection</label>
+        <select id="rs-djmc-t"><option value="180">DJ Only ($180)</option><option value="200">MC Only ($200)</option><option value="340">DJ + MC ($340)</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Dancers / Performers</div><div class="t-desc">Professional dancers to energize the crowd</div></div>
+        <div class="t-right"><span class="price-tag">$80/dancer</span><label class="sw"><input type="checkbox" id="rs-dance" onchange="tog('rs-dance-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-dance-sub">
+        <label class="field-label">Number of Dancers</label>
+        <input type="number" id="rs-dance-n" min="2" max="20" value="4">
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Brand Ambassadors</div><div class="t-desc">Uniformed promotional staff to engage the public</div></div>
+        <div class="t-right"><span class="price-tag">$60/person</span><label class="sw"><input type="checkbox" id="rs-ba" onchange="tog('rs-ba-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-ba-sub">
+        <label class="field-label">Number of Staff</label>
+        <input type="number" id="rs-ba-n" min="1" max="50" value="4">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎬 Media, Security & Materials</div>
+      <div class="card-sub">Coverage, security and printed collateral</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Photography & Videography</div><div class="t-desc">Professional event coverage</div></div>
+        <div class="t-right"><span class="price-tag">From $250</span><label class="sw"><input type="checkbox" id="rs-media" onchange="tog('rs-media-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-media-sub">
+        <label class="field-label">Coverage Type</label>
+        <select id="rs-media-t"><option value="250">Photography Only ($250)</option><option value="300">Videography Only ($300)</option><option value="480">Photo + Video ($480)</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Security Personnel</div><div class="t-desc">Uniformed crowd and asset security</div></div>
+        <div class="t-right"><span class="price-tag">$70/guard</span><label class="sw"><input type="checkbox" id="rs-sec" onchange="tog('rs-sec-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-sec-sub">
+        <label class="field-label">Number of Guards</label>
+        <input type="number" id="rs-sec-n" min="1" max="20" value="2">
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Printed Flyers / Promo Materials</div><div class="t-desc">Branded flyers for distribution at the event</div></div>
+        <div class="t-right"><span class="price-tag">From $50</span><label class="sw"><input type="checkbox" id="rs-fly" onchange="tog('rs-fly-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="rs-fly-sub">
+        <label class="field-label">Quantity</label>
+        <input type="number" id="rs-fly-n" min="100" max="50000" step="100" value="500">
+      </div>
+    </div>
+
+    <button class="btn-gen" onclick="genQuote('roadshow')">✦ Generate Roadshow Quote</button>
+  </div>
+
+  <!-- ═══════════════ ADVERTISING ═══════════════ -->
+  <div class="service-form" id="form-advertising">
+
+    <div class="card">
+      <div class="card-title">📋 Campaign Details</div>
+      <div class="card-sub">Tell us about your advertising campaign</div>
+      <div class="grid">
+        <div class="full">
+          <label class="field-label">Brand / Product Name</label>
+          <input type="text" id="ad-name" placeholder="e.g. ABC Bank – New Account Launch">
+        </div>
+        <div>
+          <label class="field-label">Campaign Start Date</label>
+          <input type="date" id="ad-date">
+        </div>
+        <div>
+          <label class="field-label">Campaign Duration</label>
+          <select id="ad-dur">
+            <option value="1">1 Week</option>
+            <option value="2">2 Weeks</option>
+            <option value="4" selected>1 Month</option>
+            <option value="8">2 Months</option>
+            <option value="12">3 Months</option>
+            <option value="24">6 Months</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Target Market / Region</label>
+          <input type="text" id="ad-region" placeholder="e.g. Harare, National, Southern Africa">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">📺 Media Channels</div>
+      <div class="card-sub">Select your advertising platforms</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Television Advertising</div><div class="t-desc">TV spot production and airtime placement</div></div>
+        <div class="t-right"><span class="price-tag">From $1,200</span><label class="sw"><input type="checkbox" id="ad-tv" onchange="tog('ad-tv-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-tv-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Spot Length</label>
+          <select id="ad-tv-len"><option value="1200">15 seconds ($1,200)</option><option value="1800">30 seconds ($1,800)</option><option value="2800">60 seconds ($2,800)</option></select></div>
+          <div><label class="field-label">No. of Flighting Weeks</label>
+          <input type="number" id="ad-tv-wks" min="1" max="52" value="4"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Radio Advertising</div><div class="t-desc">Radio spot production and airtime</div></div>
+        <div class="t-right"><span class="price-tag">From $300</span><label class="sw"><input type="checkbox" id="ad-radio" onchange="tog('ad-radio-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-radio-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Spot Length</label>
+          <select id="ad-radio-len"><option value="300">15 seconds ($300)</option><option value="450">30 seconds ($450)</option><option value="700">60 seconds ($700)</option></select></div>
+          <div><label class="field-label">No. of Flighting Weeks</label>
+          <input type="number" id="ad-radio-wks" min="1" max="52" value="4"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Billboard / Outdoor</div><div class="t-desc">Static or digital outdoor placements</div></div>
+        <div class="t-right"><span class="price-tag">From $400/mo</span><label class="sw"><input type="checkbox" id="ad-bill" onchange="tog('ad-bill-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-bill-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Billboard Type</label>
+          <select id="ad-bill-t"><option value="400">Standard Static ($400/mo)</option><option value="700">Large Format ($700/mo)</option><option value="1100">Digital LED ($1,100/mo)</option></select></div>
+          <div><label class="field-label">Number of Sites</label>
+          <input type="number" id="ad-bill-n" min="1" max="50" value="1"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Social Media Advertising</div><div class="t-desc">Paid campaigns on Facebook, Instagram, LinkedIn etc.</div></div>
+        <div class="t-right"><span class="price-tag">From $350/mo</span><label class="sw"><input type="checkbox" id="ad-social" onchange="tog('ad-social-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-social-sub">
+        <label class="field-label">Monthly Ad Spend Budget</label>
+        <select id="ad-social-b"><option value="350">Starter – $350/mo</option><option value="700">Growth – $700/mo</option><option value="1500">Premium – $1,500/mo</option><option value="3000">Enterprise – $3,000/mo</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Press / Newspaper</div><div class="t-desc">Print advertising in newspapers and magazines</div></div>
+        <div class="t-right"><span class="price-tag">From $250</span><label class="sw"><input type="checkbox" id="ad-press" onchange="tog('ad-press-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-press-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Ad Size</label>
+          <select id="ad-press-sz"><option value="250">Quarter Page ($250)</option><option value="450">Half Page ($450)</option><option value="800">Full Page ($800)</option></select></div>
+          <div><label class="field-label">Number of Insertions</label>
+          <input type="number" id="ad-press-n" min="1" max="52" value="2"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">✏️ Creative Services</div>
+      <div class="card-sub">Design and content production</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Creative Concept & Design</div><div class="t-desc">Campaign concept, artwork and brand assets</div></div>
+        <div class="t-right"><span class="price-tag">From $500</span><label class="sw"><input type="checkbox" id="ad-design" onchange="tog('ad-design-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-design-sub">
+        <label class="field-label">Scope</label>
+        <select id="ad-design-t"><option value="500">Basic – logo + 2 artwork sizes ($500)</option><option value="950">Standard – full campaign suite ($950)</option><option value="1800">Premium – full brand campaign ($1,800)</option></select>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Video / TVC Production</div><div class="t-desc">Script, shoot, edit and final delivery</div></div>
+        <div class="t-right"><span class="price-tag">From $1,500</span><label class="sw"><input type="checkbox" id="ad-vid" onchange="tog('ad-vid-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="ad-vid-sub">
+        <label class="field-label">Production Level</label>
+        <select id="ad-vid-t"><option value="1500">Basic – single location, 1 day shoot ($1,500)</option><option value="3500">Standard – multi-location, full crew ($3,500)</option><option value="7000">Premium – cinematic production ($7,000)</option></select>
+      </div>
+    </div>
+
+    <button class="btn-gen" onclick="genQuote('advertising')">✦ Generate Advertising Quote</button>
+  </div>
+
+  <!-- ═══════════════ PRINTING ═══════════════ -->
+  <div class="service-form" id="form-printing">
+
+    <div class="card">
+      <div class="card-title">📋 Project Details</div>
+      <div class="card-sub">Tell us about your printing project</div>
+      <div class="grid">
+        <div class="full">
+          <label class="field-label">Company / Project Name</label>
+          <input type="text" id="pr-name" placeholder="e.g. XYZ Company – Annual Report">
+        </div>
+        <div>
+          <label class="field-label">Required By Date</label>
+          <input type="date" id="pr-date">
+        </div>
+        <div>
+          <label class="field-label">Delivery Location</label>
+          <input type="text" id="pr-location" placeholder="e.g. Harare CBD">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🖨️ Print Products</div>
+      <div class="card-sub">Select the items you need printed</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Flyers / Leaflets</div><div class="t-desc">A5 or A4 single or double-sided</div></div>
+        <div class="t-right"><span class="price-tag">From $45</span><label class="sw"><input type="checkbox" id="pr-fly" onchange="tog('pr-fly-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="pr-fly-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Size & Sides</label>
+          <select id="pr-fly-t"><option value="0.09">A5 Single-sided ($0.09/unit)</option><option value="0.12">A5 Double-sided ($0.12/unit)</option><option value="0.15">A4 Single-sided ($0.15/unit)</option><option value="0.20">A4 Double-sided ($0.20/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="pr-fly-n" min="100" max="100000" step="100" value="1000"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Business Cards</div><div class="t-desc">Standard or premium finish business cards</div></div>
+        <div class="t-right"><span class="price-tag">From $35</span><label class="sw"><input type="checkbox" id="pr-bc" onchange="tog('pr-bc-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="pr-bc-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Finish</label>
+          <select id="pr-bc-t"><option value="0.07">Standard Matt ($0.07/card)</option><option value="0.12">Gloss Laminated ($0.12/card)</option><option value="0.20">Premium Soft Touch ($0.20/card)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="pr-bc-n" min="50" max="10000" step="50" value="250"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Banners / Pull-Up Banners</div><div class="t-desc">Roller banners, teardrop, or flat banners</div></div>
+        <div class="t-right"><span class="price-tag">From $45</span><label class="sw"><input type="checkbox" id="pr-ban" onchange="tog('pr-ban-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="pr-ban-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Banner Type</label>
+          <select id="pr-ban-t"><option value="45">Pull-Up / Roller Banner ($45/unit)</option><option value="35">Teardrop Flag ($35/unit)</option><option value="60">Large PVC Banner per m² ($60)</option></select></div>
+          <div><label class="field-label">Quantity / m²</label>
+          <input type="number" id="pr-ban-n" min="1" max="200" value="2"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Brochures / Catalogues</div><div class="t-desc">Folded or saddle-stitched multi-page</div></div>
+        <div class="t-right"><span class="price-tag">From $0.80/unit</span><label class="sw"><input type="checkbox" id="pr-broch" onchange="tog('pr-broch-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="pr-broch-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Type & Pages</label>
+          <select id="pr-broch-t"><option value="0.80">Trifold A4 ($0.80/unit)</option><option value="1.50">8-Page Booklet ($1.50/unit)</option><option value="2.80">16-Page Catalogue ($2.80/unit)</option><option value="5.50">32-Page Catalogue ($5.50/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="pr-broch-n" min="50" max="10000" step="50" value="200"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Posters</div><div class="t-desc">A3, A2, A1 or A0 format posters</div></div>
+        <div class="t-right"><span class="price-tag">From $0.50</span><label class="sw"><input type="checkbox" id="pr-post" onchange="tog('pr-post-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="pr-post-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Size</label>
+          <select id="pr-post-t"><option value="0.50">A3 ($0.50/unit)</option><option value="1.20">A2 ($1.20/unit)</option><option value="2.50">A1 ($2.50/unit)</option><option value="4.50">A0 ($4.50/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="pr-post-n" min="10" max="10000" step="10" value="100"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Vehicle Branding / Wraps</div><div class="t-desc">Full or partial vehicle wrap and graphics</div></div>
+        <div class="t-right"><span class="price-tag">From $350</span><label class="sw"><input type="checkbox" id="pr-veh" onchange="tog('pr-veh-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="pr-veh-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Wrap Type</label>
+          <select id="pr-veh-t"><option value="350">Partial Wrap / Decals ($350)</option><option value="700">Half Wrap ($700)</option><option value="1400">Full Wrap – Sedan ($1,400)</option><option value="2200">Full Wrap – Truck/Bus ($2,200)</option></select></div>
+          <div><label class="field-label">Number of Vehicles</label>
+          <input type="number" id="pr-veh-n" min="1" max="50" value="1"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-gen" onclick="genQuote('printing')">✦ Generate Printing Quote</button>
+  </div>
+
+  <!-- ═══════════════ CORPORATE WEAR ═══════════════ -->
+  <div class="service-form" id="form-corporatewear">
+
+    <div class="card">
+      <div class="card-title">📋 Order Details</div>
+      <div class="card-sub">Tell us about your corporate wear order</div>
+      <div class="grid">
+        <div class="full">
+          <label class="field-label">Company / Organisation Name</label>
+          <input type="text" id="cw-name" placeholder="e.g. ABC Bank – Staff Uniforms">
+        </div>
+        <div>
+          <label class="field-label">Required By Date</label>
+          <input type="date" id="cw-date">
+        </div>
+        <div>
+          <label class="field-label">Delivery Location</label>
+          <input type="text" id="cw-location" placeholder="e.g. Head Office, Harare">
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👕 Garment Selection</div>
+      <div class="card-sub">Select garment types and quantities</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Polo Shirts</div><div class="t-desc">Branded embroidered or printed polo shirts</div></div>
+        <div class="t-right"><span class="price-tag">From $12/unit</span><label class="sw"><input type="checkbox" id="cw-polo" onchange="tog('cw-polo-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-polo-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Quality</label>
+          <select id="cw-polo-t"><option value="12">Standard Cotton ($12/unit)</option><option value="18">Premium Pique ($18/unit)</option><option value="25">Performance Dry-Fit ($25/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="cw-polo-n" min="10" max="5000" value="50"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">T-Shirts</div><div class="t-desc">Screen-printed or embroidered crew-neck tees</div></div>
+        <div class="t-right"><span class="price-tag">From $8/unit</span><label class="sw"><input type="checkbox" id="cw-tee" onchange="tog('cw-tee-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-tee-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Quality</label>
+          <select id="cw-tee-t"><option value="8">Budget 150gsm ($8/unit)</option><option value="12">Standard 180gsm ($12/unit)</option><option value="18">Premium 200gsm ($18/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="cw-tee-n" min="10" max="5000" value="50"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Jackets / Hoodies</div><div class="t-desc">Branded fleece, softshell or hoodie jackets</div></div>
+        <div class="t-right"><span class="price-tag">From $28/unit</span><label class="sw"><input type="checkbox" id="cw-jack" onchange="tog('cw-jack-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-jack-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Type</label>
+          <select id="cw-jack-t"><option value="28">Fleece Hoodie ($28/unit)</option><option value="45">Softshell Jacket ($45/unit)</option><option value="65">Corporate Blazer ($65/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="cw-jack-n" min="5" max="2000" value="20"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Caps / Hats</div><div class="t-desc">Embroidered or printed branded headwear</div></div>
+        <div class="t-right"><span class="price-tag">From $6/unit</span><label class="sw"><input type="checkbox" id="cw-cap" onchange="tog('cw-cap-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-cap-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Type</label>
+          <select id="cw-cap-t"><option value="6">Standard Cap ($6/unit)</option><option value="10">Premium Cap ($10/unit)</option><option value="14">Bucket Hat ($14/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="cw-cap-n" min="10" max="5000" value="50"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Bibs / Vests</div><div class="t-desc">Branded promotional bibs or reflective vests</div></div>
+        <div class="t-right"><span class="price-tag">From $7/unit</span><label class="sw"><input type="checkbox" id="cw-bib" onchange="tog('cw-bib-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-bib-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Type</label>
+          <select id="cw-bib-t"><option value="7">Mesh Bib ($7/unit)</option><option value="12">Reflective Safety Vest ($12/unit)</option><option value="18">Premium Branded Vest ($18/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="cw-bib-n" min="10" max="5000" value="20"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🎨 Branding & Finishing</div>
+      <div class="card-sub">Select branding method and extras</div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Logo Embroidery</div><div class="t-desc">Stitched logo on chest or sleeve</div></div>
+        <div class="t-right"><span class="price-tag">$2.50/garment</span><label class="sw"><input type="checkbox" id="cw-emb" onchange="tog('cw-emb-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-emb-sub">
+        <label class="field-label">Estimated Total Garments for Embroidery</label>
+        <input type="number" id="cw-emb-n" min="10" max="10000" value="50">
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Screen Printing</div><div class="t-desc">Printed design on front and/or back</div></div>
+        <div class="t-right"><span class="price-tag">$1.80/garment</span><label class="sw"><input type="checkbox" id="cw-print" onchange="tog('cw-print-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-print-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Print Positions</label>
+          <select id="cw-print-t"><option value="1.80">Front only ($1.80/unit)</option><option value="3.20">Front + Back ($3.20/unit)</option><option value="4.50">Full colour all-over ($4.50/unit)</option></select></div>
+          <div><label class="field-label">Number of Garments</label>
+          <input type="number" id="cw-print-n" min="10" max="10000" value="50"></div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="t-info"><div class="t-name">Individual Packaging</div><div class="t-desc">Poly bag or gift box per garment</div></div>
+        <div class="t-right"><span class="price-tag">From $0.50/unit</span><label class="sw"><input type="checkbox" id="cw-pack" onchange="tog('cw-pack-sub',this)"><span class="sl"></span></label></div>
+      </div>
+      <div class="sub" id="cw-pack-sub">
+        <div class="sub-grid">
+          <div><label class="field-label">Packaging Type</label>
+          <select id="cw-pack-t"><option value="0.50">Poly Bag ($0.50/unit)</option><option value="2.00">Gift Box ($2.00/unit)</option></select></div>
+          <div><label class="field-label">Quantity</label>
+          <input type="number" id="cw-pack-n" min="10" max="10000" value="50"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-gen" onclick="genQuote('corporatewear')">✦ Generate Corporate Wear Quote</button>
+  </div>
+
+  <!-- ═══════════════ QUOTE OUTPUT ═══════════════ -->
+  <div id="quoteOut">
+    <div class="q-head">
+      <div>
+        <div class="q-title">Indicative Quote — <span id="q-service-label"></span></div>
+        <div class="q-ref" id="q-ref"></div>
+      </div>
+      <div>
+        <div class="q-date-lbl">Generated</div>
+        <div class="q-date" id="q-date"></div>
+      </div>
+    </div>
+    <div class="q-event" id="q-event"></div>
+    <div class="q-items" id="q-items"></div>
+    <div class="q-total">
+      <div><div class="q-total-lbl">Estimated Total Range</div><div class="q-total-sub">Indicative pricing only</div></div>
+      <div class="q-total-amt" id="q-total"></div>
+    </div>
+    <div class="q-note">This is an indicative quote only. Final pricing will be confirmed by our team after consultation. Prices may vary based on specific requirements, location logistics, and prevailing market rates. Contact us to proceed with a formal quotation.</div>
+    <button class="btn-req" onclick="requestFormal()">→ Request Formal Quote</button>
+  </div>
+
+  <div id="thankyou">
+    <div class="ty-icon">✦</div>
+    <h3>Thank You — We'll Be in Touch</h3>
+    <p>Your quote request has been received. A member of the <strong>Rocket Media Corporation</strong> team will contact you within <strong>24 hours</strong> to confirm your requirements and provide a formal proposal.</p>
+  </div>
+
+</div>
+
+<footer>© 2026 Rocket Media Corporation (Pvt) Ltd · All prices are indicative and subject to final confirmation</footer>
+
+<script>
+// ── SWITCH SERVICE ──
+function switchService(id) {
+  document.querySelectorAll('.service-tab').forEach((t,i) => {
+    t.classList.toggle('active', ['roadshow','advertising','printing','corporatewear'][i] === id);
+  });
+  document.querySelectorAll('.service-form').forEach(f => f.classList.remove('active'));
+  document.getElementById('form-'+id).classList.add('active');
+  document.getElementById('quoteOut').style.display = 'none';
+  document.getElementById('thankyou').style.display = 'none';
+  document.getElementById('form-'+id).scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ── TOGGLE SUB FIELDS ──
+function tog(id, cb) {
+  document.getElementById(id).classList.toggle('on', cb.checked);
+}
+
+// ── PRICE RANGE ──
+function rng(base) {
+  const lo = Math.round(base);
+  const hi = Math.round(base * 1.25);
+  return { lo, hi, str: `$${lo.toLocaleString()} – $${hi.toLocaleString()}` };
+}
+
+function addItem(items, name, detail, base) {
+  const p = rng(base);
+  items.push({ name, detail, price: p.str, lo: p.lo, hi: p.hi });
+}
+
+// ── GENERATE QUOTE ──
+function genQuote(type) {
+  let items = [], name='', date='', location='', extra1='', extra2='';
+
+  if (type === 'roadshow') {
+    name = document.getElementById('rs-name').value || 'Roadshow Activation';
+    date = document.getElementById('rs-date').value;
+    location = document.getElementById('rs-location').value || 'TBC';
+    const hrs = parseInt(document.getElementById('rs-hours').value)||6;
+    const trucks = parseInt(document.getElementById('rs-trucks').value)||1;
+    const hm = hrs>=8?1.3:hrs>=6?1.15:1;
+    extra1 = `${hrs} Hours`; extra2 = `${trucks} Truck(s)`;
+    addItem(items,'Branded Truck(s)',`${trucks} truck(s) × ${hrs} hrs`, trucks*400*hm);
+    if(document.getElementById('rs-pa').checked) addItem(items,'PA System',getSelText('rs-pa-sz'),parseInt(document.getElementById('rs-pa-sz').value));
+    if(document.getElementById('rs-gen').checked) addItem(items,'Backup Generator',getSelText('rs-gen-sz'),parseInt(document.getElementById('rs-gen-sz').value));
+    if(document.getElementById('rs-gaz').checked){const n=parseInt(document.getElementById('rs-gaz-n').value)||1; addItem(items,'Branded Gazebo/Tent',`${n} unit(s)`,n*80);}
+    if(document.getElementById('rs-led').checked) addItem(items,'LED Screen',getSelText('rs-led-sz'),parseInt(document.getElementById('rs-led-sz').value));
+    if(document.getElementById('rs-stage').checked) addItem(items,'Stage/Podium',getSelText('rs-stage-sz'),parseInt(document.getElementById('rs-stage-sz').value));
+    if(document.getElementById('rs-djmc').checked) addItem(items,'DJ / MC',getSelText('rs-djmc-t'),parseInt(document.getElementById('rs-djmc-t').value));
+    if(document.getElementById('rs-dance').checked){const n=parseInt(document.getElementById('rs-dance-n').value)||4; addItem(items,'Dancers/Performers',`${n} dancer(s)`,n*80);}
+    if(document.getElementById('rs-ba').checked){const n=parseInt(document.getElementById('rs-ba-n').value)||4; addItem(items,'Brand Ambassadors',`${n} staff`,n*60);}
+    if(document.getElementById('rs-media').checked) addItem(items,'Photography & Video',getSelText('rs-media-t'),parseInt(document.getElementById('rs-media-t').value));
+    if(document.getElementById('rs-sec').checked){const n=parseInt(document.getElementById('rs-sec-n').value)||2; addItem(items,'Security Personnel',`${n} guard(s)`,n*70);}
+    if(document.getElementById('rs-fly').checked){const n=parseInt(document.getElementById('rs-fly-n').value)||500; addItem(items,'Printed Flyers',`${n.toLocaleString()} units`,Math.max(50,n*0.08));}
+
+  } else if (type === 'advertising') {
+    name = document.getElementById('ad-name').value || 'Advertising Campaign';
+    date = document.getElementById('ad-date').value;
+    location = document.getElementById('ad-region').value || 'National';
+    const durWks = parseInt(document.getElementById('ad-dur').value)||4;
+    const durText = document.getElementById('ad-dur').options[document.getElementById('ad-dur').selectedIndex].text;
+    extra1 = durText; extra2 = location;
+    if(document.getElementById('ad-tv').checked){const b=parseInt(document.getElementById('ad-tv-len').value); const w=parseInt(document.getElementById('ad-tv-wks').value)||4; addItem(items,'Television Advertising',`${getSelText('ad-tv-len').split('(')[0].trim()} × ${w} weeks`,b+(w*600));}
+    if(document.getElementById('ad-radio').checked){const b=parseInt(document.getElementById('ad-radio-len').value); const w=parseInt(document.getElementById('ad-radio-wks').value)||4; addItem(items,'Radio Advertising',`${getSelText('ad-radio-len').split('(')[0].trim()} × ${w} weeks`,b+(w*150));}
+    if(document.getElementById('ad-bill').checked){const b=parseInt(document.getElementById('ad-bill-t').value); const n=parseInt(document.getElementById('ad-bill-n').value)||1; const months=Math.ceil(durWks/4); addItem(items,'Billboard / Outdoor',`${n} site(s) × ${months} month(s)`,b*n*months);}
+    if(document.getElementById('ad-social').checked){const b=parseInt(document.getElementById('ad-social-b').value); const months=Math.ceil(durWks/4); addItem(items,'Social Media Advertising',`${months} month(s)`,b*months);}
+    if(document.getElementById('ad-press').checked){const b=parseInt(document.getElementById('ad-press-sz').value); const n=parseInt(document.getElementById('ad-press-n').value)||2; addItem(items,'Press / Newspaper',`${n} insertion(s)`,b*n);}
+    if(document.getElementById('ad-design').checked) addItem(items,'Creative Concept & Design',getSelText('ad-design-t').split('(')[0].trim(),parseInt(document.getElementById('ad-design-t').value));
+    if(document.getElementById('ad-vid').checked) addItem(items,'Video / TVC Production',getSelText('ad-vid-t').split('(')[0].trim(),parseInt(document.getElementById('ad-vid-t').value));
+
+  } else if (type === 'printing') {
+    name = document.getElementById('pr-name').value || 'Print Order';
+    date = document.getElementById('pr-date').value;
+    location = document.getElementById('pr-location').value || 'TBC';
+    extra1 = 'Print Project'; extra2 = location;
+    if(document.getElementById('pr-fly').checked){const r=parseFloat(document.getElementById('pr-fly-t').value); const n=parseInt(document.getElementById('pr-fly-n').value)||1000; addItem(items,'Flyers / Leaflets',`${n.toLocaleString()} units`,r*n);}
+    if(document.getElementById('pr-bc').checked){const r=parseFloat(document.getElementById('pr-bc-t').value); const n=parseInt(document.getElementById('pr-bc-n').value)||250; addItem(items,'Business Cards',`${n.toLocaleString()} cards`,r*n);}
+    if(document.getElementById('pr-ban').checked){const r=parseFloat(document.getElementById('pr-ban-t').value); const n=parseInt(document.getElementById('pr-ban-n').value)||2; addItem(items,'Banners',`${n} unit(s)/m²`,r*n);}
+    if(document.getElementById('pr-broch').checked){const r=parseFloat(document.getElementById('pr-broch-t').value); const n=parseInt(document.getElementById('pr-broch-n').value)||200; addItem(items,'Brochures / Catalogues',`${n.toLocaleString()} units`,r*n);}
+    if(document.getElementById('pr-post').checked){const r=parseFloat(document.getElementById('pr-post-t').value); const n=parseInt(document.getElementById('pr-post-n').value)||100; addItem(items,'Posters',`${n.toLocaleString()} units`,r*n);}
+    if(document.getElementById('pr-veh').checked){const r=parseFloat(document.getElementById('pr-veh-t').value); const n=parseInt(document.getElementById('pr-veh-n').value)||1; addItem(items,'Vehicle Branding / Wrap',`${n} vehicle(s)`,r*n);}
+
+  } else if (type === 'corporatewear') {
+    name = document.getElementById('cw-name').value || 'Corporate Wear Order';
+    date = document.getElementById('cw-date').value;
+    location = document.getElementById('cw-location').value || 'TBC';
+    extra1 = 'Garment Order'; extra2 = location;
+    if(document.getElementById('cw-polo').checked){const r=parseFloat(document.getElementById('cw-polo-t').value); const n=parseInt(document.getElementById('cw-polo-n').value)||50; addItem(items,'Polo Shirts',`${n} units`,r*n);}
+    if(document.getElementById('cw-tee').checked){const r=parseFloat(document.getElementById('cw-tee-t').value); const n=parseInt(document.getElementById('cw-tee-n').value)||50; addItem(items,'T-Shirts',`${n} units`,r*n);}
+    if(document.getElementById('cw-jack').checked){const r=parseFloat(document.getElementById('cw-jack-t').value); const n=parseInt(document.getElementById('cw-jack-n').value)||20; addItem(items,'Jackets / Hoodies',`${n} units`,r*n);}
+    if(document.getElementById('cw-cap').checked){const r=parseFloat(document.getElementById('cw-cap-t').value); const n=parseInt(document.getElementById('cw-cap-n').value)||50; addItem(items,'Caps / Hats',`${n} units`,r*n);}
+    if(document.getElementById('cw-bib').checked){const r=parseFloat(document.getElementById('cw-bib-t').value); const n=parseInt(document.getElementById('cw-bib-n').value)||20; addItem(items,'Bibs / Vests',`${n} units`,r*n);}
+    if(document.getElementById('cw-emb').checked){const n=parseInt(document.getElementById('cw-emb-n').value)||50; addItem(items,'Logo Embroidery',`${n} garments`,n*2.50);}
+    if(document.getElementById('cw-print').checked){const r=parseFloat(document.getElementById('cw-print-t').value); const n=parseInt(document.getElementById('cw-print-n').value)||50; addItem(items,'Screen Printing',`${n} garments`,r*n);}
+    if(document.getElementById('cw-pack').checked){const r=parseFloat(document.getElementById('cw-pack-t').value); const n=parseInt(document.getElementById('cw-pack-n').value)||50; addItem(items,'Individual Packaging',`${n} units`,r*n);}
+  }
+
+  if(items.length === 0){ alert('Please select at least one service item.'); return; }
+
+  const totalLo = items.reduce((s,i)=>s+i.lo,0);
+  const totalHi = items.reduce((s,i)=>s+i.hi,0);
+  const serviceLabels = {roadshow:'Roadshow Activation',advertising:'Advertising Campaign',printing:'Print Services',corporatewear:'Corporate Wear'};
+  const formattedDate = date ? new Date(date+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}) : 'TBC';
+  const prefixes = {roadshow:'RRS',advertising:'RAD',printing:'RPR',corporatewear:'RCW'};
+
+  document.getElementById('q-service-label').textContent = serviceLabels[type];
+  document.getElementById('q-ref').textContent = `Ref: ${prefixes[type]}-${Date.now().toString().slice(-6)}`;
+  document.getElementById('q-date').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+  document.getElementById('q-event').innerHTML = `
+    <div class="q-detail"><label>Client / Project</label><p>${name}</p></div>
+    <div class="q-detail"><label>${type==='roadshow'?'Event Date':type==='advertising'?'Start Date':'Required By'}</label><p>${formattedDate}</p></div>
+    <div class="q-detail"><label>${type==='roadshow'?'Location':type==='advertising'?'Region':'Delivery'}</label><p>${location}</p></div>
+    <div class="q-detail"><label>Category</label><p>${serviceLabels[type]}</p></div>
+    <div class="q-detail"><label>${type==='roadshow'?'Duration':type==='advertising'?'Duration':'Type'}</label><p>${extra1}</p></div>
+    <div class="q-detail"><label>Items Selected</label><p>${items.length}</p></div>
+  `;
+
+  document.getElementById('q-items').innerHTML = items.map(i=>`
+    <div class="q-item">
+      <div><div class="q-item-name">${i.name}</div><div class="q-item-detail">${i.detail}</div></div>
+      <div class="q-item-price">${i.price}</div>
+    </div>`).join('');
+
+  document.getElementById('q-total').textContent = `$${totalLo.toLocaleString()} – $${totalHi.toLocaleString()}`;
+
+  const out = document.getElementById('quoteOut');
+  out.style.display = 'block';
+  out.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function getSelText(id) {
+  const el = document.getElementById(id);
+  return el ? el.options[el.selectedIndex].text : '';
+}
+
+function requestFormal() {
+  document.getElementById('thankyou').style.display = 'block';
+  document.getElementById('thankyou').scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
