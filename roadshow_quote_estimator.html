@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rocket Media Corporation – Roadshow Quote Estimator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #112240;
+    --navy-light: #1a3460;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --gold-pale: #f5e6b8;
+    --white: #ffffff;
+    --off-white: #f8f5ee;
+    --text-light: #a8b8d0;
+    --border: rgba(201,168,76,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(26,52,96,0.6) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, var(--navy-mid) 0%, var(--navy) 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+
+  .logo-area h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+  }
+
+  .logo-area p {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .header-badge {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: var(--navy);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+  }
+
+  /* HERO */
+  .hero {
+    text-align: center;
+    padding: 60px 40px 40px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .hero h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .hero h2 span { color: var(--gold); }
+
+  .hero p {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* FORM CONTAINER */
+  .form-container {
+    max-width: 860px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+  }
+
+  /* SECTION CARDS */
+  .section-card {
+    background: var(--navy-mid);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .section-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--gold), var(--gold-light));
+    border-radius: 4px 0 0 4px;
+  }
+
+  .section-card:hover { border-color: rgba(201,168,76,0.5); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title .icon {
+    width: 28px; height: 28px;
+    background: rgba(201,168,76,0.15);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    padding-left: 38px;
+  }
+
+  /* GRID */
+  .fields-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field-full { grid-column: 1 / -1; }
+
+  /* LABELS & INPUTS */
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-light);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="number"],
+  select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    appearance: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="number"]:focus,
+  select:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.7) sepia(1) saturate(2) hue-rotate(5deg);
+    cursor: pointer;
+  }
+
+  select option { background: var(--navy-mid); color: var(--white); }
+
+  /* TOGGLE ROWS */
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .toggle-row:last-child { border-bottom: none; }
+
+  .toggle-info { flex: 1; }
+
+  .toggle-label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  .toggle-desc {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .toggle-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* SWITCH */
+  .switch {
+    position: relative;
+    width: 46px; height: 24px;
+    flex-shrink: 0;
+  }
+
+  .switch input { opacity: 0; width: 0; height: 0; }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255,255,255,0.1);
+    border-radius: 24px;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .slider:before {
+    content: '';
+    position: absolute;
+    width: 18px; height: 18px;
+    left: 2px; bottom: 2px;
+    background: var(--text-light);
+    border-radius: 50%;
+    transition: 0.3s;
+  }
+
+  .switch input:checked + .slider {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-color: var(--gold);
+  }
+
+  .switch input:checked + .slider:before {
+    transform: translateX(22px);
+    background: var(--navy);
+  }
+
+  /* SUB FIELDS */
+  .sub-fields {
+    display: none;
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: rgba(201,168,76,0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(201,168,76,0.15);
+    gap: 12px;
+  }
+
+  .sub-fields.active { display: flex; flex-wrap: wrap; }
+
+  .sub-field { flex: 1; min-width: 140px; }
+
+  .sub-field label { font-size: 0.72rem; }
+
+  /* PRICE ESTIMATE BADGE */
+  .price-badge {
+    font-size: 0.72rem;
+    color: var(--gold);
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    padding: 3px 8px;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  /* GENERATE BUTTON */
+  .btn-generate {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+    color: var(--navy);
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-generate::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(201,168,76,0.4); }
+  .btn-generate:hover::after { left: 100%; }
+  .btn-generate:active { transform: translateY(0); }
+
+  /* QUOTE OUTPUT */
+  #quoteOutput {
+    display: none;
+    background: var(--navy-mid);
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    padding: 40px;
+    margin-top: 32px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeSlideUp 0.5s ease;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  #quoteOutput::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+
+  .quote-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .quote-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .quote-ref {
+    font-size: 0.72rem;
+    color: var(--text-light);
+    margin-top: 4px;
+  }
+
+  .quote-event-details {
+    background: rgba(201,168,76,0.06);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .detail-item label {
+    font-size: 0.68rem;
+    color: var(--gold);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .detail-item p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  .quote-line-items { margin-bottom: 24px; }
+
+  .quote-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .quote-item:last-child { border-bottom: none; }
+
+  .item-name {
+    font-size: 0.9rem;
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .item-detail {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .item-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    text-align: right;
+    white-space: nowrap;
+    margin-left: 16px;
+  }
+
+  .quote-total {
+    background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+    border: 1px solid var(--gold);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .total-label {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--text-light);
+  }
+
+  .total-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--gold);
+  }
+
+  .quote-disclaimer {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    border-left: 3px solid var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .btn-request {
+    width: 100%;
+    padding: 16px;
+    background: transparent;
+    color: var(--gold);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .btn-request:hover {
+    background: var(--gold);
+    color: var(--navy);
+  }
+
+  /* THANK YOU */
+  #thankYou {
+    display: none;
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.1), rgba(201,168,76,0.03));
+    border: 1px solid var(--gold);
+    border-radius: 16px;
+    margin-top: 20px;
+    animation: fadeSlideUp 0.5s ease;
+  }
+
+  .thankyou-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+  }
+
+  #thankYou h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  #thankYou p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-light);
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { padding: 20px; }
+    .hero { padding: 40px 20px 28px; }
+    .hero h2 { font-size: 2rem; }
+    .fields-grid { grid-template-columns: 1fr; }
+    .field-full { grid-column: 1; }
+    .quote-event-details { grid-template-columns: 1fr 1fr; }
+    .section-card { padding: 24px 20px; }
+    #quoteOutput { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-area">
+    <h1>Rocket Media Corporation</h1>
+    <p>Roadshow Services Division · (Pvt) Ltd</p>
+  </div>
+  <div class="header-badge">Quote Estimator</div>
+</header>
+
+<div class="hero">
+  <p class="hero-label">Instant Roadshow Pricing</p>
+  <h2>Build Your <span>Roadshow</span> Quote</h2>
+  <p>Select your services, fill in your event details, and receive an instant indicative quote tailored to your roadshow requirements.</p>
+</div>
+
+<div class="form-container">
+
+  <!-- EVENT DETAILS -->
+  <div class="section-card">
+    <div class="section-title"><span class="icon">📋</span> Event Details</div>
+    <div class="section-subtitle">Tell us about your roadshow event</div>
+    <div class="fields-grid">
+      <div class="field-full">
+        <label>Event / Brand Name</label>
+        <input type="text" id="eventName" placeholder="e.g. Coca-Cola Summer Activation">
+      </div>
+      <div>
+        <label>Event Date</label>
+        <input type="date" id="eventDate">
+      </div>
+      <div>
+        <label>Event Location / Venue</label>
+        <input type="text" id="eventLocation" placeholder="e.g. City Centre Plaza, Harare">
+      </div>
+      <div>
+        <label>Duration (Hours)</label>
+        <input type="number" id="eventHours" min="1" max="24" value="6" placeholder="6">
+      </div>
+      <div>
+        <label>Number of Trucks</label>
+        <input type="number" id="numTrucks" min="1" max="20" value="1" placeholder="1">
+      </div>
+    </div>
+  </div>
+
+  <!-- CORE EQUIPMENT -->
+  <div class="section-card">
+    <div class="section-title"><span class="icon">🔊</span> Core Equipment & Infrastructure</div>
+    <div class="section-subtitle">Select the equipment your roadshow requires</div>
+
+    <!-- PA SYSTEM -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">PA System / Sound</div>
+        <div class="toggle-desc">Professional sound equipment for announcements and music</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $150</span>
+        <label class="switch"><input type="checkbox" id="togglePA" onchange="toggleSub('subPA', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subPA">
+      <div class="sub-field">
+        <label>PA System Size</label>
+        <select id="paSize">
+          <option value="small">Small (up to 200 people) — $150</option>
+          <option value="medium">Medium (200–500 people) — $280</option>
+          <option value="large">Large (500+ people) — $450</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- BACKUP GENERATOR -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Backup Generator</div>
+        <div class="toggle-desc">Reliable power backup for uninterrupted operations</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $120</span>
+        <label class="switch"><input type="checkbox" id="toggleGen" onchange="toggleSub('subGen', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subGen">
+      <div class="sub-field">
+        <label>Generator Size</label>
+        <select id="genSize">
+          <option value="small">10–20 KVA — $120</option>
+          <option value="medium">20–50 KVA — $200</option>
+          <option value="large">50 KVA+ — $350</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- GAZEBO / TENT -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Branded Gazebo / Tent Setup</div>
+        <div class="toggle-desc">Branded shelter and display structures</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">$80/unit</span>
+        <label class="switch"><input type="checkbox" id="toggleGazebo" onchange="toggleSub('subGazebo', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subGazebo">
+      <div class="sub-field">
+        <label>Number of Gazebos</label>
+        <input type="number" id="numGazebo" min="1" max="20" value="1">
+      </div>
+    </div>
+
+    <!-- LED SCREEN -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">LED Screen / Display</div>
+        <div class="toggle-desc">Large format LED screen for visuals and branding</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $200</span>
+        <label class="switch"><input type="checkbox" id="toggleLED" onchange="toggleSub('subLED', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subLED">
+      <div class="sub-field">
+        <label>Screen Size</label>
+        <select id="ledSize">
+          <option value="small">Small (3x2m) — $200</option>
+          <option value="medium">Medium (6x4m) — $380</option>
+          <option value="large">Large (10x6m+) — $650</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- TALENT & ENTERTAINMENT -->
+  <div class="section-card">
+    <div class="section-title"><span class="icon">🎤</span> Talent & Entertainment</div>
+    <div class="section-subtitle">Select the talent and performers for your activation</div>
+
+    <!-- DJ/MC -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">DJ / MC</div>
+        <div class="toggle-desc">Professional DJ, MC, or both for your event</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $180</span>
+        <label class="switch"><input type="checkbox" id="toggleDJMC" onchange="toggleSub('subDJMC', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subDJMC">
+      <div class="sub-field">
+        <label>Selection</label>
+        <select id="djmcType">
+          <option value="dj">DJ Only — $180</option>
+          <option value="mc">MC Only — $200</option>
+          <option value="both">DJ + MC — $340</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- DANCERS -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Dancers / Performers</div>
+        <div class="toggle-desc">Professional dancers to energize your activation</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">$80/dancer</span>
+        <label class="switch"><input type="checkbox" id="toggleDancers" onchange="toggleSub('subDancers', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subDancers">
+      <div class="sub-field">
+        <label>Number of Dancers</label>
+        <input type="number" id="numDancers" min="2" max="20" value="4">
+      </div>
+    </div>
+
+    <!-- BRAND AMBASSADORS -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Brand Ambassadors / Promo Staff</div>
+        <div class="toggle-desc">Uniformed promotional staff to engage the public</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">$60/person</span>
+        <label class="switch"><input type="checkbox" id="toggleBA" onchange="toggleSub('subBA', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subBA">
+      <div class="sub-field">
+        <label>Number of Staff</label>
+        <input type="number" id="numBA" min="1" max="50" value="4">
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIA & MATERIALS -->
+  <div class="section-card">
+    <div class="section-title"><span class="icon">🎬</span> Media, Security & Materials</div>
+    <div class="section-subtitle">Coverage, security, and printed materials</div>
+
+    <!-- PHOTOGRAPHY/VIDEO -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Photography & Videography</div>
+        <div class="toggle-desc">Professional coverage of your roadshow event</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $250</span>
+        <label class="switch"><input type="checkbox" id="toggleMedia" onchange="toggleSub('subMedia', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subMedia">
+      <div class="sub-field">
+        <label>Coverage Type</label>
+        <select id="mediaType">
+          <option value="photo">Photography Only — $250</option>
+          <option value="video">Videography Only — $300</option>
+          <option value="both">Photo + Video — $480</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Security Personnel</div>
+        <div class="toggle-desc">Uniformed security for crowd and asset management</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">$70/guard</span>
+        <label class="switch"><input type="checkbox" id="toggleSecurity" onchange="toggleSub('subSecurity', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subSecurity">
+      <div class="sub-field">
+        <label>Number of Guards</label>
+        <input type="number" id="numSecurity" min="1" max="20" value="2">
+      </div>
+    </div>
+
+    <!-- FLYERS -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Printed Flyers / Promo Materials</div>
+        <div class="toggle-desc">Branded flyers and materials for distribution</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $50</span>
+        <label class="switch"><input type="checkbox" id="toggleFlyers" onchange="toggleSub('subFlyers', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subFlyers">
+      <div class="sub-field">
+        <label>Quantity</label>
+        <input type="number" id="numFlyers" min="100" max="50000" step="100" value="500">
+      </div>
+    </div>
+
+    <!-- STAGING -->
+    <div class="toggle-row">
+      <div class="toggle-info">
+        <div class="toggle-label">Stage / Podium Setup</div>
+        <div class="toggle-desc">Elevated stage or podium platform for performers</div>
+      </div>
+      <div class="toggle-right">
+        <span class="price-badge">From $300</span>
+        <label class="switch"><input type="checkbox" id="toggleStage" onchange="toggleSub('subStage', this)"><span class="slider"></span></label>
+      </div>
+    </div>
+    <div class="sub-fields" id="subStage">
+      <div class="sub-field">
+        <label>Stage Size</label>
+        <select id="stageSize">
+          <option value="small">Small Podium — $300</option>
+          <option value="medium">Medium Stage (4x4m) — $550</option>
+          <option value="large">Large Stage (8x6m+) — $900</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-generate" onclick="generateQuote()">✦ Generate My Quote</button>
+
+  <!-- QUOTE OUTPUT -->
+  <div id="quoteOutput">
+    <div class="quote-header">
+      <div>
+        <div class="quote-title">Indicative Roadshow Quote</div>
+        <div class="quote-ref" id="quoteRef"></div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:0.72rem;color:var(--text-light);">Generated</div>
+        <div style="font-size:0.85rem;color:var(--gold-light);font-weight:500;" id="quoteDate"></div>
+      </div>
+    </div>
+
+    <div class="quote-event-details" id="eventSummary"></div>
+    <div class="quote-line-items" id="lineItems"></div>
+
+    <div class="quote-total">
+      <div>
+        <div class="total-label">Estimated Total Range</div>
+        <div style="font-size:0.75rem;color:var(--text-light);margin-top:4px;">Indicative pricing only</div>
+      </div>
+      <div class="total-amount" id="totalAmount"></div>
+    </div>
+
+    <div class="quote-disclaimer">
+      This is an indicative quote only. Final pricing will be confirmed by our team after consultation. Prices may vary based on specific client requirements, location logistics, and prevailing market rates. Contact us to proceed with a formal quotation.
+    </div>
+
+    <button class="btn-request" onclick="requestQuote()">→ Request Formal Quote</button>
+  </div>
+
+  <!-- THANK YOU -->
+  <div id="thankYou">
+    <div class="thankyou-icon">✦</div>
+    <h3>Thank You — We'll Be in Touch</h3>
+    <p>Your roadshow quote request has been received. A member of our team will contact you within <strong style="color:var(--gold);">24 hours</strong> to confirm your requirements and provide a formal proposal.</p>
+  </div>
+
+</div>
+
+<footer>© 2026 Rocket Media Corporation (Pvt) Ltd · Roadshow Services Division · All prices are indicative and subject to final confirmation</footer>
+
+<script>
+  function toggleSub(id, checkbox) {
+    const el = document.getElementById(id);
+    if (checkbox.checked) {
+      el.classList.add('active');
+    } else {
+      el.classList.remove('active');
+    }
+  }
+
+  function getPriceRange(base) {
+    const low = base;
+    const high = Math.round(base * 1.25);
+    return { low, high, str: `$${low.toLocaleString()} – $${high.toLocaleString()}` };
+  }
+
+  function generateQuote() {
+    const eventName = document.getElementById('eventName').value || 'Unnamed Event';
+    const eventDate = document.getElementById('eventDate').value;
+    const eventLocation = document.getElementById('eventLocation').value || 'TBC';
+    const eventHours = parseInt(document.getElementById('eventHours').value) || 6;
+    const numTrucks = parseInt(document.getElementById('numTrucks').value) || 1;
+
+    const hourMultiplier = eventHours >= 8 ? 1.3 : eventHours >= 6 ? 1.15 : 1;
+
+    let items = [];
+    let totalLow = 0;
+    let totalHigh = 0;
+
+    // TRUCKS
+    const truckBase = numTrucks * 400 * hourMultiplier;
+    const truck = getPriceRange(Math.round(truckBase));
+    items.push({ name: 'Branded Truck(s)', detail: `${numTrucks} truck(s) × ${eventHours} hrs`, price: truck.str });
+    totalLow += truck.low; totalHigh += truck.high;
+
+    // PA SYSTEM
+    if (document.getElementById('togglePA').checked) {
+      const sizes = { small: 150, medium: 280, large: 450 };
+      const base = sizes[document.getElementById('paSize').value];
+      const p = getPriceRange(base);
+      items.push({ name: 'PA System / Sound', detail: document.getElementById('paSize').options[document.getElementById('paSize').selectedIndex].text.split('—')[0].trim(), price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // GENERATOR
+    if (document.getElementById('toggleGen').checked) {
+      const sizes = { small: 120, medium: 200, large: 350 };
+      const base = sizes[document.getElementById('genSize').value];
+      const p = getPriceRange(base);
+      items.push({ name: 'Backup Generator', detail: document.getElementById('genSize').options[document.getElementById('genSize').selectedIndex].text.split('—')[0].trim(), price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // GAZEBO
+    if (document.getElementById('toggleGazebo').checked) {
+      const num = parseInt(document.getElementById('numGazebo').value) || 1;
+      const base = num * 80;
+      const p = getPriceRange(base);
+      items.push({ name: 'Branded Gazebo / Tent', detail: `${num} unit(s)`, price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // LED
+    if (document.getElementById('toggleLED').checked) {
+      const sizes = { small: 200, medium: 380, large: 650 };
+      const base = sizes[document.getElementById('ledSize').value];
+      const p = getPriceRange(base);
+      items.push({ name: 'LED Screen / Display', detail: document.getElementById('ledSize').options[document.getElementById('ledSize').selectedIndex].text.split('—')[0].trim(), price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // DJ/MC
+    if (document.getElementById('toggleDJMC').checked) {
+      const types = { dj: 180, mc: 200, both: 340 };
+      const base = types[document.getElementById('djmcType').value];
+      const p = getPriceRange(base);
+      items.push({ name: 'DJ / MC', detail: document.getElementById('djmcType').options[document.getElementById('djmcType').selectedIndex].text.split('—')[0].trim(), price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // DANCERS
+    if (document.getElementById('toggleDancers').checked) {
+      const num = parseInt(document.getElementById('numDancers').value) || 4;
+      const base = num * 80;
+      const p = getPriceRange(base);
+      items.push({ name: 'Dancers / Performers', detail: `${num} dancer(s)`, price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // BRAND AMBASSADORS
+    if (document.getElementById('toggleBA').checked) {
+      const num = parseInt(document.getElementById('numBA').value) || 4;
+      const base = num * 60;
+      const p = getPriceRange(base);
+      items.push({ name: 'Brand Ambassadors', detail: `${num} staff member(s)`, price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // MEDIA
+    if (document.getElementById('toggleMedia').checked) {
+      const types = { photo: 250, video: 300, both: 480 };
+      const base = types[document.getElementById('mediaType').value];
+      const p = getPriceRange(base);
+      items.push({ name: 'Photography & Videography', detail: document.getElementById('mediaType').options[document.getElementById('mediaType').selectedIndex].text.split('—')[0].trim(), price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // SECURITY
+    if (document.getElementById('toggleSecurity').checked) {
+      const num = parseInt(document.getElementById('numSecurity').value) || 2;
+      const base = num * 70;
+      const p = getPriceRange(base);
+      items.push({ name: 'Security Personnel', detail: `${num} guard(s)`, price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // FLYERS
+    if (document.getElementById('toggleFlyers').checked) {
+      const qty = parseInt(document.getElementById('numFlyers').value) || 500;
+      const base = Math.max(50, Math.round(qty * 0.08));
+      const p = getPriceRange(base);
+      items.push({ name: 'Printed Flyers / Materials', detail: `${qty.toLocaleString()} units`, price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // STAGE
+    if (document.getElementById('toggleStage').checked) {
+      const sizes = { small: 300, medium: 550, large: 900 };
+      const base = sizes[document.getElementById('stageSize').value];
+      const p = getPriceRange(base);
+      items.push({ name: 'Stage / Podium Setup', detail: document.getElementById('stageSize').options[document.getElementById('stageSize').selectedIndex].text.split('—')[0].trim(), price: p.str });
+      totalLow += p.low; totalHigh += p.high;
+    }
+
+    // Build event summary
+    const formattedDate = eventDate ? new Date(eventDate + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'TBC';
+    document.getElementById('eventSummary').innerHTML = `
+      <div class="detail-item"><label>Event</label><p>${eventName}</p></div>
+      <div class="detail-item"><label>Date</label><p>${formattedDate}</p></div>
+      <div class="detail-item"><label>Location</label><p>${eventLocation}</p></div>
+      <div class="detail-item"><label>Duration</label><p>${eventHours} Hours</p></div>
+      <div class="detail-item"><label>Trucks</label><p>${numTrucks} Unit(s)</p></div>
+      <div class="detail-item"><label>Services</label><p>${items.length} Selected</p></div>
+    `;
+
+    // Build line items
+    document.getElementById('lineItems').innerHTML = items.map(i => `
+      <div class="quote-item">
+        <div><div class="item-name">${i.name}</div><div class="item-detail">${i.detail}</div></div>
+        <div class="item-price">${i.price}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('totalAmount').textContent = `$${totalLow.toLocaleString()} – $${totalHigh.toLocaleString()}`;
+    document.getElementById('quoteRef').textContent = `Ref: RMC-${Date.now().toString().slice(-6)}`;
+    document.getElementById('quoteDate').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const output = document.getElementById('quoteOutput');
+    output.style.display = 'block';
+    output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function requestQuote() {
+    document.getElementById('thankYou').style.display = 'block';
+    document.getElementById('thankYou').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
